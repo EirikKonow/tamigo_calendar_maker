@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Personal additions
+.temp_name.jpg
+.inndata.txt
