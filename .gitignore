@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 # Personal additions
-.temp_name.jpg
-.inndata.txt
+printable.jpg
+inndata.txt
