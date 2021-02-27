@@ -11,7 +11,7 @@ import plan_maker
 textfile = "inndata.txt"
 
 def main():
-	myPlan = plan_maker.Plan_maker(textfile, rows=8)
+	myPlan = plan_maker.Plan_maker(textfile, rows=6)
 
 	myPlan.extract_text()
 

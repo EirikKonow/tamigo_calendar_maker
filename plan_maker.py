@@ -97,6 +97,35 @@ class Plan_maker:
 				copy_list[i]["date"][j] = "{}.{}.{}".format(newdate.day, newdate.month, newdate.year)
 			days_since_monday = 0
 
+		# Hardcoded Kiwi work
+		# Every odd week
+		# wednesdays, 15:00 - 23:00
+		# Ever even week
+		# friday 15 - 23, alternate to saturday 15 - 23
+		for i, dic in enumerate(copy_list):
+			if int(dic["week"])%2 == 1: # skip the equate in python?
+				dic["start_time"][2] = "15:01"
+				dic["end_time"][2] = "23:30"
+			else:
+				if int(dic["week"])%4 == 0: # fredag
+					dic["start_time"][4] = "15:01"
+					dic["end_time"][4] = "23:30"
+				else: # saturday
+					dic["start_time"][5] = "15:01"
+					dic["end_time"][5] = "23:30"
+
+				
+				"""
+				plan_dict = {"week":None,
+					"weekday"	:["man.","tir.","ons.","tor.","fre.","lør.","søn.",],
+					"date"		:[None for i in range(7)],
+					"start_time":[None for i in range(7)],
+					"end_time"	:[None for i in range(7)],
+					"hours"		:[None for i in range(7)],
+					"year"		:[None for i in range(7)]
+					}
+				"""
+
 		self.plan_list = copy_list
 
 
@@ -131,6 +160,9 @@ class Plan_maker:
 									week_dict["hours"][i] = words[4]
 									week_dict["year"][i] = words[5]
 
+				
+
+
 		self.plan_list.append(week_dict)	
 
 		self.fix_dates()
@@ -149,9 +181,14 @@ class Plan_maker:
 		
 		# Rectangle based on start-end time
 		if start_time_txt:
+			work_color = (180,180,180,128)
+			# Change color if Kiwi
+			if start_time_txt[-1] == "1":
+				work_color = (210,210,210,128)
+
 			start_time = self.time2part_of_day(start_time)# - 800
 			end_time = self.time2part_of_day(end_time)
-			work_part = Image.new('RGBA', (day_img_inner.size[0], (end_time-start_time)), (180,180,180,128))
+			work_part = Image.new('RGBA', (day_img_inner.size[0], (end_time-start_time)), work_color)
 			draw_clock = ImageDraw.Draw(work_part)
 			w_txt, h_txt = draw_clock.textsize(start_time_txt)
 			draw_clock.text(((work_part.size[0]-w_txt)/2,10), start_time_txt, font=fnt, fill=(100,100,100,196))
